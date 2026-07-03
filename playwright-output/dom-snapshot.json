@@ -1,0 +1,277 @@
+{
+  "url": "https://example-ecommerce.com",
+  "title": "Example E-Commerce - Home",
+  "timestamp": "2026-01-15T10:30:00Z",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "elements": [
+    {
+      "role": "banner",
+      "name": "Header",
+      "selector": "header",
+      "children": [
+        {
+          "role": "link",
+          "name": "Example E-Commerce",
+          "href": "/",
+          "selector": "a.logo"
+        },
+        {
+          "role": "navigation",
+          "name": "Main Navigation",
+          "selector": "nav.main-nav",
+          "children": [
+            {
+              "role": "link",
+              "name": "Home",
+              "href": "/",
+              "selector": "a[href='/']"
+            },
+            {
+              "role": "link",
+              "name": "Products",
+              "href": "/products",
+              "selector": "a[href='/products']"
+            },
+            {
+              "role": "link",
+              "name": "Categories",
+              "href": "/categories",
+              "selector": "a[href='/categories']"
+            },
+            {
+              "role": "link",
+              "name": "Cart (2)",
+              "href": "/cart",
+              "selector": "a[href='/cart']"
+            },
+            {
+              "role": "link",
+              "name": "Login",
+              "href": "/login",
+              "selector": "a[href='/login']"
+            }
+          ]
+        },
+        {
+          "role": "search",
+          "name": "Search",
+          "selector": "form.search-form",
+          "children": [
+            {
+              "role": "searchbox",
+              "name": "Search products",
+              "selector": "input[type='search']"
+            },
+            {
+              "role": "button",
+              "name": "Search",
+              "selector": "button[type='submit']"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "main",
+      "name": "Main Content",
+      "selector": "main",
+      "children": [
+        {
+          "role": "heading",
+          "name": "Welcome to Example E-Commerce",
+          "level": 1,
+          "selector": "h1"
+        },
+        {
+          "role": "button",
+          "name": "Shop Now",
+          "selector": "button.cta-button"
+        },
+        {
+          "role": "heading",
+          "name": "Featured Products",
+          "level": 2,
+          "selector": "h2"
+        },
+        {
+          "role": "list",
+          "name": "Product Grid",
+          "selector": "div.product-grid",
+          "children": [
+            {
+              "role": "listitem",
+              "name": "Product Card",
+              "selector": "div.product-card",
+              "children": [
+                {
+                  "role": "img",
+                  "name": "Wireless Headphones",
+                  "selector": "img.product-image"
+                },
+                {
+                  "role": "heading",
+                  "name": "Wireless Headphones",
+                  "level": 3,
+                  "selector": "h3.product-name"
+                },
+                {
+                  "role": "text",
+                  "name": "$99.99",
+                  "selector": "span.product-price"
+                },
+                {
+                  "role": "button",
+                  "name": "Add to Cart",
+                  "selector": "button.add-to-cart"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "contentinfo",
+      "name": "Footer",
+      "selector": "footer",
+      "children": [
+        {
+          "role": "link",
+          "name": "About Us",
+          "href": "/about",
+          "selector": "a[href='/about']"
+        },
+        {
+          "role": "link",
+          "name": "Contact",
+          "href": "/contact",
+          "selector": "a[href='/contact']"
+        },
+        {
+          "role": "link",
+          "name": "Terms of Service",
+          "href": "/terms",
+          "selector": "a[href='/terms']"
+        },
+        {
+          "role": "link",
+          "name": "Privacy Policy",
+          "href": "/privacy",
+          "selector": "a[href='/privacy']"
+        }
+      ]
+    }
+  ],
+  "forms": [
+    {
+      "name": "Search",
+      "action": "/products",
+      "method": "GET",
+      "selector": "form.search-form",
+      "fields": [
+        {
+          "type": "search",
+          "name": "q",
+          "placeholder": "Search products",
+          "required": false
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "name": "Search"
+        }
+      ]
+    }
+  ],
+  "buttons": [
+    {
+      "name": "Shop Now",
+      "type": "button",
+      "selector": "button.cta-button"
+    },
+    {
+      "name": "Add to Cart",
+      "type": "button",
+      "selector": "button.add-to-cart"
+    },
+    {
+      "name": "Search",
+      "type": "submit",
+      "selector": "button[type='submit']"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "search",
+      "name": "q",
+      "placeholder": "Search products",
+      "required": false,
+      "selector": "input[type='search']"
+    }
+  ],
+  "links": [
+    {
+      "name": "Example E-Commerce",
+      "href": "/",
+      "selector": "a.logo"
+    },
+    {
+      "name": "Home",
+      "href": "/",
+      "selector": "a[href='/']"
+    },
+    {
+      "name": "Products",
+      "href": "/products",
+      "selector": "a[href='/products']"
+    },
+    {
+      "name": "Categories",
+      "href": "/categories",
+      "selector": "a[href='/categories']"
+    },
+    {
+      "name": "Cart (2)",
+      "href": "/cart",
+      "selector": "a[href='/cart']"
+    },
+    {
+      "name": "Login",
+      "href": "/login",
+      "selector": "a[href='/login']"
+    },
+    {
+      "name": "About Us",
+      "href": "/about",
+      "selector": "a[href='/about']"
+    },
+    {
+      "name": "Contact",
+      "href": "/contact",
+      "selector": "a[href='/contact']"
+    },
+    {
+      "name": "Terms of Service",
+      "href": "/terms",
+      "selector": "a[href='/terms']"
+    },
+    {
+      "name": "Privacy Policy",
+      "href": "/privacy",
+      "selector": "a[href='/privacy']"
+    }
+  ],
+  "summary": {
+    "totalElements": 45,
+    "forms": 1,
+    "buttons": 3,
+    "inputs": 1,
+    "links": 10,
+    "images": 8,
+    "headings": 3
+  }
+}

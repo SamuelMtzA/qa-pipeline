@@ -1,0 +1,182 @@
+{
+  "url": "https://example-ecommerce.com",
+  "timestamp": "2026-01-15T10:30:00Z",
+  "requests": [
+    {
+      "url": "https://example-ecommerce.com/",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 245,
+      "size": 15234,
+      "type": "document",
+      "contentType": "text/html"
+    },
+    {
+      "url": "https://example-ecommerce.com/styles/main.css",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 89,
+      "size": 45678,
+      "type": "stylesheet",
+      "contentType": "text/css"
+    },
+    {
+      "url": "https://example-ecommerce.com/scripts/app.js",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 156,
+      "size": 234567,
+      "type": "script",
+      "contentType": "application/javascript"
+    },
+    {
+      "url": "https://example-ecommerce.com/scripts/vendor.js",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 178,
+      "size": 456789,
+      "type": "script",
+      "contentType": "application/javascript"
+    },
+    {
+      "url": "https://example-ecommerce.com/images/hero-banner.jpg",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 567,
+      "size": 2345678,
+      "type": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://example-ecommerce.com/images/product-1.jpg",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 234,
+      "size": 123456,
+      "type": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://example-ecommerce.com/images/product-2.jpg",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 198,
+      "size": 134567,
+      "type": "image",
+      "contentType": "image/jpeg"
+    },
+    {
+      "url": "https://example-ecommerce.com/api/products?featured=true",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 345,
+      "size": 8765,
+      "type": "xhr",
+      "contentType": "application/json"
+    },
+    {
+      "url": "https://example-ecommerce.com/api/cart",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 234,
+      "size": 1234,
+      "type": "xhr",
+      "contentType": "application/json"
+    },
+    {
+      "url": "https://example-ecommerce.com/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found",
+      "duration": 123,
+      "size": 0,
+      "type": "image",
+      "contentType": "text/html"
+    },
+    {
+      "url": "https://analytics.example.com/track",
+      "method": "POST",
+      "status": 200,
+      "statusText": "OK",
+      "duration": 89,
+      "size": 234,
+      "type": "xhr",
+      "contentType": "application/json"
+    }
+  ],
+  "summary": {
+    "total": 11,
+    "successful": 10,
+    "failed": 1,
+    "totalSize": 3366102,
+    "totalDuration": 2458,
+    "byType": {
+      "document": 1,
+      "stylesheet": 1,
+      "script": 2,
+      "image": 4,
+      "xhr": 3
+    },
+    "byStatus": {
+      "200": 10,
+      "404": 1
+    }
+  },
+  "failed": [
+    {
+      "url": "https://example-ecommerce.com/favicon.ico",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found",
+      "duration": 123,
+      "size": 0,
+      "type": "image"
+    }
+  ],
+  "apiCalls": [
+    {
+      "url": "https://example-ecommerce.com/api/products?featured=true",
+      "method": "GET",
+      "status": 200,
+      "duration": 345,
+      "size": 8765
+    },
+    {
+      "url": "https://example-ecommerce.com/api/cart",
+      "method": "GET",
+      "status": 200,
+      "duration": 234,
+      "size": 1234
+    },
+    {
+      "url": "https://analytics.example.com/track",
+      "method": "POST",
+      "status": 200,
+      "duration": 89,
+      "size": 234
+    }
+  ],
+  "performanceMetrics": {
+    "largestRequest": {
+      "url": "https://example-ecommerce.com/images/hero-banner.jpg",
+      "size": 2345678,
+      "duration": 567
+    },
+    "slowestRequest": {
+      "url": "https://example-ecommerce.com/images/hero-banner.jpg",
+      "size": 2345678,
+      "duration": 567
+    },
+    "averageRequestSize": 306009,
+    "averageRequestDuration": 223
+  }
+}

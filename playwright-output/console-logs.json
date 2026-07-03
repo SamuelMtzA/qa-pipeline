@@ -1,0 +1,84 @@
+{
+  "url": "https://example-ecommerce.com",
+  "timestamp": "2026-01-15T10:30:00Z",
+  "messages": [
+    {
+      "type": "info",
+      "text": "Application initialized",
+      "location": "app.js:1",
+      "timestamp": "2026-01-15T10:30:00.123Z"
+    },
+    {
+      "type": "info",
+      "text": "User session started",
+      "location": "session.js:15",
+      "timestamp": "2026-01-15T10:30:00.456Z"
+    },
+    {
+      "type": "warning",
+      "text": "Deprecated API usage: window.localStorage.getItem() should use async storage API",
+      "location": "storage.js:42",
+      "timestamp": "2026-01-15T10:30:01.234Z"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "location": "https://example-ecommerce.com/favicon.ico",
+      "timestamp": "2026-01-15T10:30:01.567Z"
+    },
+    {
+      "type": "warning",
+      "text": "Image not optimized: /images/hero-banner.jpg (2.3MB)",
+      "location": "performance.js:89",
+      "timestamp": "2026-01-15T10:30:02.345Z"
+    },
+    {
+      "type": "info",
+      "text": "Products loaded: 20 items",
+      "location": "products.js:156",
+      "timestamp": "2026-01-15T10:30:02.678Z"
+    },
+    {
+      "type": "info",
+      "text": "Cart loaded: 2 items",
+      "location": "cart.js:78",
+      "timestamp": "2026-01-15T10:30:02.890Z"
+    },
+    {
+      "type": "warning",
+      "text": "Third-party script blocking render: analytics.js",
+      "location": "performance.js:112",
+      "timestamp": "2026-01-15T10:30:03.123Z"
+    }
+  ],
+  "summary": {
+    "errors": 1,
+    "warnings": 3,
+    "info": 4,
+    "total": 8
+  },
+  "errors": [
+    {
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "location": "https://example-ecommerce.com/favicon.ico",
+      "timestamp": "2026-01-15T10:30:01.567Z"
+    }
+  ],
+  "warnings": [
+    {
+      "text": "Deprecated API usage: window.localStorage.getItem() should use async storage API",
+      "location": "storage.js:42",
+      "timestamp": "2026-01-15T10:30:01.234Z"
+    },
+    {
+      "text": "Image not optimized: /images/hero-banner.jpg (2.3MB)",
+      "location": "performance.js:89",
+      "timestamp": "2026-01-15T10:30:02.345Z"
+    },
+    {
+      "text": "Third-party script blocking render: analytics.js",
+      "location": "performance.js:112",
+      "timestamp": "2026-01-15T10:30:03.123Z"
+    }
+  ]
+}
