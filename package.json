@@ -1,0 +1,28 @@
+{
+  "name": "qa-pipeline",
+  "version": "1.0.0",
+  "description": "AI-powered QA platform built on OpenCode's agent infrastructure",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:list": "playwright test --list",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report"
+  },
+  "keywords": [
+    "qa",
+    "testing",
+    "playwright",
+    "ai",
+    "opencode",
+    "automation"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

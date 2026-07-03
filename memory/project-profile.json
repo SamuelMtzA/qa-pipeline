@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "last_updated": "2026-01-01T00:00:00Z",
+  "last_verified_run": null,
+  "confidence": 0.0,
+  
+  "identity": {
+    "name": null,
+    "url": null,
+    "type": "web_application",
+    "framework": null,
+    "language": null,
+    "css_approach": null,
+    "state_management": null,
+    "api_style": null,
+    "auth_provider": null
+  },
+
+  "structure": {
+    "is_spa": null,
+    "is_ssr": null,
+    "routing": null,
+    "page_count_estimate": 0,
+    "known_sections": []
+  },
+
+  "deployment": {
+    "hosting": null,
+    "environments": [],
+    "ci_cd": null
+  },
+
+  "quirks": []
+}

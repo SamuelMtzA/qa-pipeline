@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "last_updated": "2026-01-01T00:00:00Z",
+  "last_verified_run": null,
+  "confidence": 0.0,
+
+  "flows": [],
+
+  "test_accounts": {},
+
+  "known_issues": []
+}
