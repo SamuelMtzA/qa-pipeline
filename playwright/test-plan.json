@@ -1,0 +1,91 @@
+{
+  "project": "E-Commerce Platform",
+  "generated": "2026-01-15T10:30:00Z",
+  "summary": {
+    "total": 40,
+    "P0": 24,
+    "P1": 12,
+    "P2": 4,
+    "coverage": 92
+  },
+  "tests": [
+    {
+      "id": "T-001",
+      "name": "Login with valid credentials",
+      "feature": "F-001",
+      "priority": "P0",
+      "type": "happy-path",
+      "file": "auth/login.spec.ts",
+      "steps": [
+        { "action": "Navigate to /login", "selector": null },
+        { "action": "Fill email", "selector": "getByLabel('Email')" },
+        { "action": "Fill password", "selector": "getByLabel('Password')" },
+        { "action": "Click login", "selector": "getByRole('button', { name: 'Login' })" }
+      ],
+      "expected": "Redirect to /account/profile",
+      "dependencies": []
+    },
+    {
+      "id": "T-002",
+      "name": "Login with invalid email format",
+      "feature": "F-001",
+      "priority": "P0",
+      "type": "error-path",
+      "file": "auth/login.spec.ts",
+      "steps": [
+        { "action": "Navigate to /login", "selector": null },
+        { "action": "Fill invalid email", "selector": "getByLabel('Email')" },
+        { "action": "Fill password", "selector": "getByLabel('Password')" },
+        { "action": "Click login", "selector": "getByRole('button', { name: 'Login' })" }
+      ],
+      "expected": "Show 'Invalid email format' error",
+      "dependencies": []
+    },
+    {
+      "id": "T-010",
+      "name": "Register with valid information",
+      "feature": "F-001",
+      "priority": "P0",
+      "type": "happy-path",
+      "file": "auth/register.spec.ts",
+      "steps": [
+        { "action": "Navigate to /register", "selector": null },
+        { "action": "Fill name", "selector": "getByLabel('Full Name')" },
+        { "action": "Fill email", "selector": "getByLabel('Email')" },
+        { "action": "Fill password", "selector": "getByLabel('Password')" },
+        { "action": "Fill confirm password", "selector": "getByLabel('Confirm Password')" },
+        { "action": "Check terms", "selector": "getByLabel('Accept Terms')" },
+        { "action": "Click register", "selector": "getByRole('button', { name: 'Register' })" }
+      ],
+      "expected": "Redirect to /login with success message",
+      "dependencies": []
+    },
+    {
+      "id": "T-030",
+      "name": "View empty cart",
+      "feature": "F-003",
+      "priority": "P1",
+      "type": "happy-path",
+      "file": "cart/cart.spec.ts",
+      "steps": [
+        { "action": "Navigate to /cart", "selector": null }
+      ],
+      "expected": "Show 'Your cart is empty' message",
+      "dependencies": []
+    },
+    {
+      "id": "T-031",
+      "name": "View cart with items",
+      "feature": "F-003",
+      "priority": "P0",
+      "type": "happy-path",
+      "file": "cart/cart.spec.ts",
+      "steps": [
+        { "action": "Add item to cart", "selector": null },
+        { "action": "Navigate to /cart", "selector": null }
+      ],
+      "expected": "Show item details in cart",
+      "dependencies": []
+    }
+  ]
+}
