@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# Runtime artifacts
+.qa-workspace/
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Evidence and reports (large files)
+evidence/screenshots/
+evidence/videos/
+evidence/traces/
+reports/*.html
+reports/*.pdf
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
