@@ -16,6 +16,12 @@ playwright-report/
 *.seed
 *.pid.lock
 
+# Generated outputs
+requirements.json
+exploration.md
+*.spec.ts
+test-results/
+
 # Evidence and reports (large files)
 evidence/screenshots/
 evidence/videos/
