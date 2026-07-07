@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "AI-powered QA platform built on OpenCode's agent infrastructure",
   "type": "module",
+  "bin": {
+    "qa-pipeline": "./bin/qa-pipeline"
+  },
   "scripts": {
+    "pipeline": "node orchestrator.js",
     "test": "playwright test",
     "test:list": "playwright test --list",
     "test:ui": "playwright test --ui",

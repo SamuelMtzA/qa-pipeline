@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+/**
+ * QA Pipeline CLI
+ * 
+ * Command-line interface for the QA Pipeline Orchestrator
+ */
+
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Import and run the orchestrator
+import(join(__dirname, '..', 'orchestrator.js'));
