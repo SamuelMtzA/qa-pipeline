@@ -92,13 +92,16 @@ Ask at most 2 questions. If the URL is clear, proceed immediately.
    - `06-playwright/scripts/*.spec.ts`
 
 ### Step 5: Reporting
-1. Load `calculate-health-score` skill
-2. Compute health score and verdict
-3. Load `generate-report` skill
-4. Consolidate all artifacts into QA report
-5. Write outputs to `09-report/`:
+1. Dispatch `qa-reporter` sub-agent via the `task` tool
+2. Pass it:
+   - `run_id` and absolute path to `.qa-workspace/<run-id>/`
+   - A brief summary of prior phase results (≤3 sentences)
+   - Pointer to expected output: `09-report/qa-report.md` and `09-report/qa-report.json`
+3. The sub-agent loads `calculate-health-score` and `generate-report` skills internally
+4. Sub-agent writes outputs to `09-report/`:
    - `qa-report.md`
    - `qa-report.json`
+5. Capture the sub-agent's return summary (`verdict`, `health_score`, counts) for Step 6
 
 ### Step 6: Summary
 Output a summary to the user:
