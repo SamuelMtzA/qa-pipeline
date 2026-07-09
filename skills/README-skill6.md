@@ -1,5 +1,16 @@
 # Skill 6: Reporting
 
+> **MVP v1.0 status:** ✅ Complete
+>
+> **Canonical skills** (used by the pipeline):
+> - `generate-report` — renders the final QA report
+> - `calculate-health-score` — deterministic 0-10 score + verdict
+>
+> **Legacy reference** (kept for human review of the full report structure):
+> - `reporting` — superseded by the canonical pair above
+>
+> **Sub-agent:** `qa-reporter` (`.opencode/agent/qa-reporter.md`) — dispatched by the orchestrator at Step 5.
+
 ## Overview
 
 Generate a comprehensive QA report by consolidating all artifacts from the pipeline: requirements, exploration, test plan, execution results, and evidence.

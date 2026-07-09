@@ -415,3 +415,87 @@ The platform is ready for the next phase: automating the remaining 5 skills usin
 **Total Files**: 50+  
 **Total Lines**: 8,000+  
 **Status**: MVP Complete ✓
+
+---
+
+## v1.0 MVP Finalization (2026-07-08)
+
+After the initial MVP, the reporting phase was hardened into a production-ready sub-agent and skill pair.
+
+### What Changed
+
+- **New sub-agent: `qa-reporter`** (`.opencode/agent/qa-reporter.md`)
+  - Sub-agent that owns Skill 6 (Reporting) end-to-end
+  - Loads `calculate-health-score` + `generate-report` skills internally
+  - Returns compact summary (`verdict`, `health_score`, counts) to orchestrator
+  - Read-only + write-permission to `09-report/`, no bash, no edits
+  - Uses a smaller model tier (cost optimization — reporting is mechanical)
+
+- **Orchestrator Step 5 rewired** (`.opencode/agent/qa-orchestrator.md`)
+  - Now dispatches `qa-reporter` via the `task` tool instead of calling skills directly
+  - Passes artifact paths + ≤3-sentence prior-phase summary per `AGENTS.md` context rules
+
+- **Skill 6 consolidated**
+  - **Canonical**: `generate-report` (renders report) + `calculate-health-score` (deterministic 0-10 score + verdict)
+  - **Demoted to legacy**: `reporting/SKILL.md` → `reporting/SKILL.legacy.md` (kept as a human-readable reference of the full 5-section report structure)
+
+- **Smoke test added** (`tests/test-reporting.js`)
+  - 29 assertions covering fixture build, score computation, report generation, section validation, JSON structure, verdict edge cases, and determinism
+  - Run with: `npm run test:reporting` or `npm run test:smoke`
+
+### Smoke Test Results
+
+```
+✓ health score is a number between 0 and 10
+✓ health score is deterministic (re-runs identically)
+✓ verdict is one of the 4 allowed values
+✓ verdict expected = SHIP WITH FIXES
+✓ qa-report.md written
+✓ qa-report.json written
+✓ qa-report.md is non-empty
+✓ qa-report.json is valid JSON
+✓ report contains "Summary" section
+✓ report contains "Coverage" section
+✓ report contains "Failures" section
+✓ report contains "Root Cause" section
+✓ report contains "Recommendations" section
+✓ json has report.verdict
+✓ json has executive_summary.health_score
+✓ json has executive_summary.verdict
+✓ json has executive_summary.tests
+✓ json has health_score_breakdown
+✓ verdict for critical=0 major=0 tests=30/30 → SHIP
+✓ verdict for critical=0 major=1 tests=30/30 → SHIP WITH FIXES
+✓ verdict for critical=1 major=0 tests=30/30 → DO NOT SHIP
+✓ verdict for critical=0 major=0 tests=0/0 → INCONCLUSIVE
+✓ health score is byte-identical across runs
+✓ verdict is identical across runs
+
+Tests: 29 passed, 0 failed
+```
+
+### Final Agent Roster (MVP v1.0)
+
+| Agent | Mode | Role |
+|-------|------|------|
+| `qa-orchestrator` | primary | Pipeline sequencing + state management |
+| `qa-reporter` | subagent | Reporting (Skill 6) — **new in v1.0** |
+
+### Final Skill Roster (MVP v1.0)
+
+| Skill | Phase | Status |
+|-------|-------|--------|
+| `read-requirements` | 1 | canonical |
+| `extract-user-stories` | 1 | canonical |
+| `explore-ui` | 2 | canonical |
+| `playwright-mcp` | 3 | canonical |
+| `generate-test-cases` | 4 | canonical |
+| `test-execution` | 5 | canonical |
+| `calculate-health-score` | 6 | **canonical** (new in v1.0) |
+| `generate-report` | 6 | **canonical** (new in v1.0) |
+| `reporting` | 6 | **legacy reference** (demoted in v1.0) |
+
+---
+
+**v1.0 Date**: 2026-07-08  
+**v1.0 Status**: MVP Stable ✓

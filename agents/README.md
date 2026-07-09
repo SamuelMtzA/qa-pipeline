@@ -76,9 +76,13 @@ You are the [Agent Name]. You [responsibilities].
 
 ### qa-reporter
 - Collect all phase artifacts
-- Compute health score
-- Determine verdict
-- Assemble QA report
+- Invoke `calculate-health-score` and `generate-report` skills
+- Compute health score and verdict (deterministic)
+- Assemble QA report (`09-report/qa-report.md` + `.json`)
+- Return compact summary to orchestrator
+- **Skills**: `calculate-health-score`, `generate-report`
+- **Tools**: `read`, `write`, `glob` (no bash, no edits)
+- **MVP**: defined in `.opencode/agent/qa-reporter.md`
 
 ## Adding a New Agent
 

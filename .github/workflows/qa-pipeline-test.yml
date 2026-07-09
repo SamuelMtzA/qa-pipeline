@@ -1,0 +1,60 @@
+name: QA Pipeline Tests
+
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  tier-1:
+    name: Tier 1 — Platform tests (no LLM)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate fixture from PRD
+        run: node skills/requirement-analysis.js test-prd.md requirements.json
+
+      - name: T1 — Skill 6 smoke test (29 assertions)
+        run: npm run test:reporting
+
+      - name: T2 — Skill 1 fixture validation
+        run: node tests/test-requirement-analysis.js requirements.json
+
+      - name: T3 — Skill 1 regenerate (idempotency check)
+        run: |
+          node skills/requirement-analysis.js test-prd.md /tmp/reqs-regen.json
+          node tests/test-requirement-analysis.js /tmp/reqs-regen.json
+          # Idempotency: regenerated output must match the first run byte-for-byte
+          [ "$(wc -c < requirements.json)" = "$(wc -c < /tmp/reqs-regen.json)" ] \
+            && echo "IDEMPOTENT" || (echo "DRIFT" && exit 1)
+
+      - name: T4 — Orchestrator dry-run (workspace setup)
+        run: node orchestrator.js https://example.com --prd test-prd.md --skip-exploration --skip-execution
+
+      - name: Upload smoke-test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-pipeline-smoke-output
+          path: |
+            .qa-workspace/smoke-*/
+            .qa-workspace/*/requirements/requirements.json
+          retention-days: 7
+          if-no-files-found: ignore

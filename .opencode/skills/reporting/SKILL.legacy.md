@@ -1,7 +1,16 @@
 ---
-name: reporting
-description: Generate comprehensive QA report from all pipeline artifacts. Use this skill when you need to produce a final report with summary, coverage, failures, root cause analysis, and recommendations.
+name: reporting (legacy)
+description: LEGACY REFERENCE ONLY. Use `generate-report` + `calculate-health-score` instead. This file is preserved as a human-readable sample of the full QA report structure (Summary, Coverage, Failures, Root Cause, Recommendations, Appendix).
 ---
+
+> **DEPRECATED — DO NOT USE IN PIPELINE**
+>
+> The canonical MVP reporting skills are:
+> - `.opencode/skills/generate-report/SKILL.md` — renders the final report
+> - `.opencode/skills/calculate-health-score/SKILL.md` — deterministic 0-10 score + verdict
+>
+> Dispatched by the `qa-reporter` sub-agent during Step 5 of the orchestrator.
+> This file is kept as a reference of the full report structure with all 5 required sections.
 
 # Reporting Skill
 
