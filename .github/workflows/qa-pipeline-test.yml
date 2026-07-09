@@ -28,16 +28,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate fixture from PRD
+        run: node skills/requirement-analysis.js test-prd.md requirements.json
+
       - name: T1 — Skill 6 smoke test (29 assertions)
         run: npm run test:reporting
 
       - name: T2 — Skill 1 fixture validation
         run: node tests/test-requirement-analysis.js requirements.json
 
-      - name: T3 — Skill 1 regenerate from PRD
+      - name: T3 — Skill 1 regenerate (idempotency check)
         run: |
           node skills/requirement-analysis.js test-prd.md /tmp/reqs-regen.json
           node tests/test-requirement-analysis.js /tmp/reqs-regen.json
+          # Idempotency: regenerated output must match the first run byte-for-byte
+          [ "$(wc -c < requirements.json)" = "$(wc -c < /tmp/reqs-regen.json)" ] \
+            && echo "IDEMPOTENT" || (echo "DRIFT" && exit 1)
 
       - name: T4 — Orchestrator dry-run (workspace setup)
         run: node orchestrator.js https://example.com --prd test-prd.md --skip-exploration --skip-execution
