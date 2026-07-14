@@ -297,12 +297,9 @@ function runReporting(workspace) {
   
   const reportsDir = path.join(workspace, 'reports');
   
-  logInfo('Report generation requires AI agent with analysis capabilities');
-  logInfo('Please use the reporting skill with an AI agent');
+  logInfo('Report generation is automated via the qa-reporter sub-agent');
+  logInfo('Invoke @qa-orchestrator to run the full pipeline end-to-end');
   logInfo(`Reports directory: ${reportsDir}`);
-  
-  logWarning('Report generation is a manual step in the current implementation');
-  logInfo('Future versions will automate this using AI agents');
   
   return reportsDir;
 }
@@ -381,7 +378,7 @@ async function main() {
   log('Next Steps:', 'bright');
   log('1. Complete manual steps (exploration, Playwright MCP, test generation)', 'dim');
   log('2. Run tests: cd playwright && npx playwright test', 'dim');
-  log('3. Generate report using the reporting skill', 'dim');
+  log('3. Generate report via @qa-orchestrator (automated)', 'dim');
   log('─'.repeat(60) + '\n', 'dim');
 }
 
