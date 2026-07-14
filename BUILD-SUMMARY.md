@@ -474,14 +474,18 @@ After the initial MVP, the reporting phase was hardened into a production-ready 
 Tests: 29 passed, 0 failed
 ```
 
-### Final Agent Roster (MVP v1.0)
+### Final Agent Roster (MVP v1.1)
 
-| Agent | Mode | Role |
-|-------|------|------|
-| `qa-orchestrator` | primary | Pipeline sequencing + state management |
-| `qa-reporter` | subagent | Reporting (Skill 6) — **new in v1.0** |
+| Agent | Mode | Role | Status |
+|-------|------|------|--------|
+| `qa-orchestrator` | primary | Pipeline sequencing + state management | v1.0 |
+| `qa-analyst` | subagent | Phase 1 — Requirements analysis | **v1.1** |
+| `qa-explorer` | subagent | Phase 2 — Exploratory testing + Playwright MCP | **v1.1** |
+| `qa-generator` | subagent | Phase 3 — Test generation | **v1.1** |
+| `qa-runner` | subagent | Phase 4 — Test execution | **v1.1** |
+| `qa-reporter` | subagent | Phase 5 — Reporting | v1.0 |
 
-### Final Skill Roster (MVP v1.0)
+### Final Skill Roster (MVP v1.1)
 
 | Skill | Phase | Status |
 |-------|-------|--------|
@@ -491,11 +495,11 @@ Tests: 29 passed, 0 failed
 | `playwright-mcp` | 3 | canonical |
 | `generate-test-cases` | 4 | canonical |
 | `test-execution` | 5 | canonical |
-| `calculate-health-score` | 6 | **canonical** (new in v1.0) |
-| `generate-report` | 6 | **canonical** (new in v1.0) |
-| `reporting` | 6 | **legacy reference** (demoted in v1.0) |
+| `calculate-health-score` | 6 | canonical |
+| `generate-report` | 6 | canonical |
+| `reporting` | 6 | legacy reference |
 
 ---
 
-**v1.0 Date**: 2026-07-08  
-**v1.0 Status**: MVP Stable ✓
+**v1.1 Date**: 2026-07-13  
+**v1.1 Status**: All 6 skills automated via OpenCode sub-agents ✓
