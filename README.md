@@ -446,19 +446,18 @@ opencode
 
 ## 📈 Roadmap
 
-### Current Status (MVP)
+### Current Status (v1.1)
 
-- ✅ Skill 1: Requirement Analysis (automated)
-- ⚠️ Skill 2: Exploratory Testing (manual)
-- ⚠️ Skill 3: Playwright MCP (manual)
-- ⚠️ Skill 4: Test Generation (manual)
-- ⚠️ Skill 5: Test Execution (manual)
-- ⚠️ Skill 6: Reporting (manual)
-- ✅ Orchestrator (coordinates skills, manages workspace)
+- ✅ Skill 1: Requirement Analysis (automated via qa-analyst)
+- ✅ Skill 2: Exploratory Testing (automated via qa-explorer)
+- ✅ Skill 3: Playwright MCP (automated via qa-explorer)
+- ✅ Skill 4: Test Generation (automated via qa-generator)
+- ✅ Skill 5: Test Execution (automated via qa-runner)
+- ✅ Skill 6: Reporting (automated via qa-reporter)
+- ✅ Orchestrator (coordinates skills, dispatches sub-agents)
 
 ### Future Enhancements
 
-- **Automate all skills** using AI agents
 - **Parallel execution** of independent skills
 - **Caching** to avoid re-running expensive steps
 - **Resume** pipeline from failed step
