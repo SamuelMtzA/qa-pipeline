@@ -209,7 +209,7 @@ This skill is the final step in the pipeline.
 
 ## Files
 
-- `.opencode/skills/reporting/SKILL.md` - Skill definition
+- `.opencode/skills/reporting/SKILL.legacy.md` - Legacy skill definition (superseded by `generate-report` + `calculate-health-score`)
 - `reports/qa-report.md` - Sample markdown report
 - `reports/qa-report.json` - Sample JSON report
 - `skills/README-skill6.md` - This documentation
