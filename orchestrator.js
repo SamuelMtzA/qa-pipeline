@@ -370,6 +370,9 @@ async function main() {
 
   log('\n' + '─'.repeat(60), 'dim');
   log('Next Steps:', 'bright');
+  log('1. Complete manual steps (exploration, Playwright MCP, test generation)', 'dim');
+  log('2. Run tests: cd playwright && npx playwright test', 'dim');
+  log('3. Generate report via @qa-orchestrator (automated)', 'dim');
   log('1. For fully automated pipeline, run in OpenCode:', 'dim');
   log('     @qa-orchestrator "QA my app at <url>"', 'dim');
   log('2. For manual CLI mode, complete steps above then run:', 'dim');
