@@ -8,13 +8,15 @@ Agent definitions live in `.opencode/agent/` and are automatically discovered by
 
 ### Core Agents
 
-- **qa-orchestrator** - Pipeline engine that sequences phases and dispatches sub-agents
-- **qa-analyst** - Parses PRDs and extracts feature maps
-- **qa-explorer** - Walks the live app and discovers pages/elements
-- **qa-generator** - Generates test plans and Playwright scripts
-- **qa-runner** - Executes tests and captures evidence (v2)
-- **qa-investigator** - Analyzes failures and produces bug reports (v2)
-- **qa-reporter** - Consolidates artifacts into final reports
+| Agent | Mode | Status | Phase |
+|-------|------|--------|-------|
+| **qa-orchestrator** | primary | ✅ implemented | Pipeline orchestration |
+| **qa-analyst** | subagent | ✅ implemented | 1. Requirements |
+| **qa-explorer** | subagent | ✅ implemented | 2. Exploration |
+| **qa-generator** | subagent | ✅ implemented | 3. Test Generation |
+| **qa-runner** | subagent | ✅ implemented | 4. Test Execution |
+| **qa-reporter** | subagent | ✅ implemented | 5. Reporting |
+| **qa-investigator** | subagent | 📋 planned | v2 — Bug Investigation |
 
 ## Agent File Structure
 
@@ -82,7 +84,6 @@ You are the [Agent Name]. You [responsibilities].
 - Return compact summary to orchestrator
 - **Skills**: `calculate-health-score`, `generate-report`
 - **Tools**: `read`, `write`, `glob` (no bash, no edits)
-- **MVP**: defined in `.opencode/agent/qa-reporter.md`
 
 ## Adding a New Agent
 

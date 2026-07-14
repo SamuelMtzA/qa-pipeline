@@ -68,7 +68,10 @@ function parseArgs() {
     console.log(`
 QA Pipeline Orchestrator
 
-Usage:
+For fully automated pipeline, use OpenCode:
+  @qa-orchestrator "QA my app at https://example.com with PRD at docs/prd.md"
+
+CLI usage (manual mode — exploration, MCP, generation, and execution are manual):
   qa-pipeline <url> [options]
 
 Arguments:
@@ -77,8 +80,8 @@ Arguments:
 Options:
   --prd <path>           Path to PRD markdown file (optional)
   --output <dir>         Output directory (default: .qa-workspace)
-  --skip-exploration     Skip exploratory testing (manual step)
-  --skip-execution       Skip test execution (manual step)
+  --skip-exploration     Skip exploratory testing (manual in CLI mode)
+  --skip-execution       Skip test execution (manual in CLI mode)
   -h, --help             Show this help message
 
 Examples:
@@ -190,12 +193,10 @@ function runExploratoryTesting(workspace, url, skip) {
   const explorationPath = path.join(workspace, 'exploration', 'exploration.md');
   
   logInfo(`Target URL: ${url}`);
-  logInfo('Exploratory testing requires manual interaction with the application');
-  logInfo('Please use the exploratory-testing skill with Playwright MCP');
-  logInfo(`Save your findings to: ${explorationPath}`);
-  
-  logWarning('Exploratory testing is a manual step in the current implementation');
-  logInfo('Future versions will automate this using AI agents');
+  logInfo('For automated execution, run via OpenCode:');
+  logInfo('  @qa-orchestrator "QA my app at https://..."');
+  logInfo('The qa-explorer sub-agent automates this step with Playwright MCP.');
+  logInfo(`For manual CLI mode, save your findings to: ${explorationPath}`);
   
   return explorationPath;
 }
@@ -209,12 +210,9 @@ function runPlaywrightMCP(workspace, url) {
   const outputDir = path.join(workspace, 'playwright-output');
   
   logInfo(`Target URL: ${url}`);
-  logInfo('Playwright MCP capture requires manual execution with OpenCode');
-  logInfo('Please use the playwright-mcp skill with Playwright MCP');
-  logInfo(`Save outputs to: ${outputDir}`);
-  
-  logWarning('Playwright MCP capture is a manual step in the current implementation');
-  logInfo('Future versions will automate this using AI agents');
+  logInfo('For automated execution, the qa-explorer sub-agent captures DOM,');
+  logInfo('screenshots, console logs, and network requests via Playwright MCP.');
+  logInfo(`For manual CLI mode, save outputs to: ${outputDir}`);
   
   return outputDir;
 }
@@ -240,14 +238,11 @@ function runTestGeneration(workspace, requirementsPath, playwrightOutputDir) {
 
   const scriptsDir = path.join(workspace, 'playwright', 'scripts');
   
-  logInfo('Test generation requires AI agent with code generation capabilities');
-  logInfo('Please use the test-generation skill with an AI agent');
+  logInfo('For automated execution, the qa-generator sub-agent reconciles');
+  logInfo('the feature map with the app map and generates Playwright scripts.');
   logInfo(`Requirements: ${requirementsPath}`);
   logInfo(`DOM Snapshot: ${domSnapshotPath}`);
   logInfo(`Output directory: ${scriptsDir}`);
-  
-  logWarning('Test generation is a manual step in the current implementation');
-  logInfo('Future versions will automate this using AI agents');
   
   return scriptsDir;
 }
@@ -279,11 +274,10 @@ function runTestExecution(workspace, scriptsDir, skip) {
   const resultsDir = path.join(workspace, 'test-results');
   
   logInfo(`Found ${testFiles.length} test files`);
-  logInfo('Test execution requires Playwright test runner');
+  logInfo('For automated execution, the qa-runner sub-agent executes tests');
+  logInfo('and captures evidence (traces, videos, screenshots).');
   logInfo(`Scripts directory: ${scriptsDir}`);
   logInfo(`Results directory: ${resultsDir}`);
-  
-  logWarning('Test execution is a manual step in the current implementation');
   logInfo('Run tests manually with: npx playwright test');
   
   return resultsDir;
@@ -355,23 +349,23 @@ async function main() {
   }
   
   if (explorationPath) {
-    logInfo(`Exploration: ${explorationPath} (manual step)`);
+    logInfo(`Exploration: ${explorationPath} (manual in CLI mode)`);
   }
   
   if (playwrightOutputDir) {
-    logInfo(`Playwright Output: ${playwrightOutputDir} (manual step)`);
+    logInfo(`Playwright Output: ${playwrightOutputDir} (manual in CLI mode)`);
   }
   
   if (scriptsDir) {
-    logInfo(`Test Scripts: ${scriptsDir} (manual step)`);
+    logInfo(`Test Scripts: ${scriptsDir} (manual in CLI mode)`);
   }
   
   if (resultsDir) {
-    logInfo(`Test Results: ${resultsDir} (manual step)`);
+    logInfo(`Test Results: ${resultsDir} (manual in CLI mode)`);
   }
   
   if (reportsDir) {
-    logInfo(`Reports: ${reportsDir} (manual step)`);
+    logInfo(`Reports: ${reportsDir} (automated via qa-reporter in OpenCode)`);
   }
 
   log('\n' + '─'.repeat(60), 'dim');
@@ -379,6 +373,10 @@ async function main() {
   log('1. Complete manual steps (exploration, Playwright MCP, test generation)', 'dim');
   log('2. Run tests: cd playwright && npx playwright test', 'dim');
   log('3. Generate report via @qa-orchestrator (automated)', 'dim');
+  log('1. For fully automated pipeline, run in OpenCode:', 'dim');
+  log('     @qa-orchestrator "QA my app at <url>"', 'dim');
+  log('2. For manual CLI mode, complete steps above then run:', 'dim');
+  log('     cd playwright && npx playwright test', 'dim');
   log('─'.repeat(60) + '\n', 'dim');
 }
 
