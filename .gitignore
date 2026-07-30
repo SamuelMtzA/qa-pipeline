@@ -29,6 +29,9 @@ evidence/traces/
 reports/*.html
 reports/*.pdf
 
+# OpenCode config (contains secrets)
+opencode.json
+
 # Environment and secrets
 .env
 .env.local
@@ -52,6 +55,13 @@ build/
 # OS
 Thumbs.db
 .DS_Store
+
+# Memory (mutable cross-run state)
+memory/*.json
+memory/visual-baselines/
+
+# Playwright MCP output
+playwright-output/
 
 # Temporary files
 tmp/
