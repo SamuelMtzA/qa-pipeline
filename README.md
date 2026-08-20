@@ -19,7 +19,7 @@ QA Pipeline takes a web application URL (and optionally a PRD), walks the app li
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - OpenCode CLI (for AI agent features)
 - Playwright MCP server
 
@@ -56,6 +56,8 @@ qa-pipeline https://example.com --prd docs/PRD.md
 ## 📋 Pipeline Flow
 
 The pipeline executes 6 skills in sequence:
+
+> **Status legend:** `✓ Automated` = runs as plain Node code · `⚠ Manual` = requires an AI agent to interpret the skill's SKILL.md spec at runtime
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -448,13 +450,13 @@ opencode
 
 ### Current Status (v1.1)
 
-- ✅ Skill 1: Requirement Analysis (automated via qa-analyst)
-- ✅ Skill 2: Exploratory Testing (automated via qa-explorer)
-- ✅ Skill 3: Playwright MCP (automated via qa-explorer)
-- ✅ Skill 4: Test Generation (automated via qa-generator)
-- ✅ Skill 5: Test Execution (automated via qa-runner)
-- ✅ Skill 6: Reporting (automated via qa-reporter)
-- ✅ Orchestrator (coordinates skills, dispatches sub-agents)
+- ✓ Skill 1: Requirement Analysis — **automated** (plain Node code in `skills/requirement-analysis.js`)
+- 🤖 Skill 2: Exploratory Testing — agent-capable (executed by `qa-explorer` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 3: Playwright MCP — agent-capable (executed by `qa-explorer` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 4: Test Generation — agent-capable (executed by `qa-generator` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 5: Test Execution — agent-capable (executed by `qa-runner` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 6: Reporting — agent-capable (executed by `qa-reporter` sub-agent at runtime; health-score formula implemented in `tests/test-reporting.js`)
+- ✓ Orchestrator — **automated** (coordinates skills, dispatches sub-agents; `orchestrator.js` scaffolds run workspace and runs Skill 1)
 
 ### Future Enhancements
 
