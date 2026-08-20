@@ -46,7 +46,13 @@ jobs:
             && echo "IDEMPOTENT" || (echo "DRIFT" && exit 1)
 
       - name: T4 — Orchestrator dry-run (workspace setup)
-        run: node orchestrator.js https://example.com --prd test-prd.md --skip-exploration --skip-execution
+        run: node orchestrator.js https://example.com --prd test-prd.md --skip-capture --skip-execution
+
+      - name: T5 — Memory system tests (34 assertions)
+        run: npm run test:memory
+
+      - name: T6 — Run config + blast_radius tests (35 assertions)
+        run: npm run test:run-config
 
       - name: Upload smoke-test artifacts
         if: always()
