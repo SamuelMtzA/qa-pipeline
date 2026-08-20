@@ -133,7 +133,7 @@ head -10 ".qa-workspace/$RUN/requirements/requirements.json"
 
 **Pass criteria:** the 7 standard sub-dirs exist, and `requirements/requirements.json` is non-empty (matches the size of the original `requirements.json`, ~4509 bytes).
 
-**Known caveat:** `00-config.json` is **not** written by `orchestrator.js` — it is only written by the `qa-orchestrator` sub-agent (see `.opencode/agent/qa-orchestrator.md` Step 1). The CLI does not have access to the LLM, so it skips the agent-level setup. This is expected and not a defect.
+**Note:** As of Tier 2, `orchestrator.js` now writes `00-config.json` with `blast_radius` enforcement via `skills/_shared/run-config.js`. The previous caveat about it not being written is no longer accurate.
 
 **Expected runtime:** < 5 seconds.
 

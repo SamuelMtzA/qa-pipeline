@@ -1,0 +1,66 @@
+name: Bug Report
+description: Report a bug in the QA pipeline
+labels: ["bug"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Target URL
+      description: The URL of the web application you were testing
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: blast-radius
+    attributes:
+      label: Blast Radius
+      description: Which blast-radius preset were you using?
+      options:
+        - read-only (default)
+        - read-click
+        - read-submit
+        - full
+    validations:
+      required: true
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Agent Runtime
+      description: Which QA_AGENT were you using?
+      options:
+        - none (default — pure code only)
+        - opencode
+        - claude-code
+        - codex
+    validations:
+      required: true
+  - type: input
+    id: run-id
+    attributes:
+      label: Run ID
+      description: The run-id from the pipeline output (timestamp format)
+      placeholder: "2026-08-20T22-21-12"
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Output
+      description: Paste any relevant pipeline output, error messages, or log excerpts
+      render: shell
+    validations:
+      required: false

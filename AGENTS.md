@@ -8,9 +8,13 @@ This is an AI-powered QA platform built on OpenCode's agent infrastructure. It t
 
 ```
 qa-pipeline/
-├── .opencode/
-│   ├── agent/          # Agent definitions (qa-orchestrator, qa-analyst, etc.)
-│   └── skills/         # Skill definitions (read-requirements, explore-ui, etc.)
+├── adapters/
+│   ├── opencode/            # OpenCode adapter (full implementation)
+│   │   ├── agent/           # Agent definitions (qa-orchestrator, qa-analyst, etc.)
+│   │   └── skills/          # Skill definitions (read-requirements, explore-ui, etc.)
+│   ├── claude-code/         # Claude Code adapter (stub)
+│   └── codex/               # Codex adapter (stub)
+├── .opencode -> adapters/opencode  # Symlink for backward compat
 ├── agents/             # Agent documentation and specifications
 ├── skills/             # Skill documentation and specifications
 ├── mcp/                # MCP server configurations
@@ -28,7 +32,7 @@ qa-pipeline/
 
 ### Files
 - **Agents**: `qa-<role>.md` (e.g., `qa-orchestrator.md`, `qa-analyst.md`)
-- **Skills**: `<skill-name>/SKILL.md` in `.opencode/skills/`
+- **Skills**: `<skill-name>/SKILL.md` in `adapters/opencode/skills/` (or `.opencode/skills/` via symlink)
 - **Reports**: `qa-report-<run-id>.md` and `qa-report-<run-id>.json`
 - **Test scripts**: `<feature>/<test-name>.spec.ts` in `playwright/scripts/`
 - **Evidence**: `T-<id>-<test-name>/<type>.png` (e.g., `T-001-login-valid/before.png`)
@@ -61,13 +65,13 @@ qa-pipeline/
 ## Development Workflow
 
 ### Adding a New Skill
-1. Create `.opencode/skills/<skill-name>/SKILL.md`
+1. Create `adapters/opencode/skills/<skill-name>/SKILL.md`
 2. Document purpose, inputs, outputs, decision logic, examples
 3. Test the skill in isolation before integrating with agents
 4. Update this file if the skill introduces new conventions
 
 ### Adding a New Agent
-1. Create `.opencode/agent/qa-<role>.md`
+1. Create `adapters/opencode/agent/qa-<role>.md`
 2. Define responsibilities, inputs, outputs, decision process
 3. Specify which skills the agent uses
 4. Define failure handling behavior
@@ -182,12 +186,12 @@ Memory is read before each run and updated after. Each memory file has a decay p
 - Check browser installation: `npx playwright install chromium`
 
 ### Agent Not Found
-- Verify agent file exists: `.opencode/agent/qa-<role>.md`
+- Verify agent file exists: `adapters/opencode/agent/qa-<role>.md` (or `.opencode/agent/` via symlink)
 - Check frontmatter: `description` field is required
 - Restart OpenCode after adding new agents
 
 ### Skill Not Loaded
-- Verify skill file exists: `.opencode/skills/<name>/SKILL.md`
+- Verify skill file exists: `adapters/opencode/skills/<name>/SKILL.md` (or `.opencode/skills/` via symlink)
 - Check frontmatter: `name` and `description` are required
 - Verify `skills.paths` in `opencode.json` includes the directory
 
