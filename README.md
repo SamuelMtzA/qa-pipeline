@@ -19,7 +19,7 @@ QA Pipeline takes a web application URL (and optionally a PRD), walks the app li
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - OpenCode CLI (for AI agent features)
 - Playwright MCP server
 

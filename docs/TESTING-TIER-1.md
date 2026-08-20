@@ -8,7 +8,7 @@ For higher tiers (live LLM runs against a real URL), see `docs/TESTING-TIER-2.md
 
 ## Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - Project dependencies installed (`npm install`)
 - macOS, Linux, or Windows shell
 

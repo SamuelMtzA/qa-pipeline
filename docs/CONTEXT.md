@@ -105,24 +105,15 @@ qa-pipeline/
 ## Environment Setup
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 20+
 - OpenCode CLI
 - Playwright MCP server (auto-installed via npx)
-- GitHub CLI (`gh`) for GitHub MCP
 
 ### Install
 ```bash
 npm install
 npm link  # Optional: global command
 ```
-
-### GitHub MCP Setup
-1. Install GitHub CLI: `brew install gh`
-2. Authenticate: `gh auth login -h github.com`
-3. Get token: `gh auth token`
-4. Copy `opencode.json.example` to `opencode.json`
-5. Replace `YOUR_GITHUB_TOKEN_HERE` with your token
-6. Verify `opencode.json` is gitignored (it should be)
 
 ### Verify
 ```bash
