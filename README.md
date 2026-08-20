@@ -15,27 +15,59 @@ QA Pipeline takes a web application URL (and optionally a PRD), walks the app li
 - **Test Execution** - Run tests and capture evidence (traces, videos, screenshots)
 - **Comprehensive Reporting** - Generate QA reports with verdict and recommendations
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
 - Node.js 20+
-- OpenCode CLI (for AI agent features)
-- Playwright MCP server
+- Playwright (auto-installed via `npm install && npx playwright install chromium`)
+- OpenCode CLI (optional — only needed for Skills 2 & 4 with `QA_AGENT=opencode`)
 
-### Installation
+### Quick Demo (no agent required)
 
 ```bash
-# Clone the repository
-git clone <repository-url>
+git clone https://github.com/SamuelMtzA/qa-pipeline.git
 cd qa-pipeline
+npm install && npx playwright install chromium
 
-# Install dependencies
-npm install
-
-# Link globally (optional)
-npm link
+# Run the pipeline against a live demo app (QA_AGENT=none by default)
+node orchestrator.js https://demo.playwright.dev/todomvc --prd examples/prd-todo.md --skip-execution
 ```
+
+Expected output:
+
+```
+[1/6] Requirement Analysis
+✓ Parsed 4 features from examples/prd-todo.md
+
+[2/6] Exploratory Testing
+⚠ Skipped (QA_AGENT=none — requires AI agent)
+
+[3/6] Playwright Capture
+✓ Capture complete: 1 pages, 3 selectors, 0 console errors
+
+[4/6] Test Generation
+⚠ Skipped (QA_AGENT=none — requires AI agent)
+
+[5/6] Test Execution
+⚠ Skipped (--skip-execution)
+
+[6/6] Reporting
+✓ Report generated: .qa-workspace/<run-id>/09-report/qa-report.md
+   Verdict: INCONCLUSIVE | Health: 6.5/10
+```
+
+Skills 1 (Requirement Analysis), 3 (Playwright Capture), and 6 (Reporting) run as pure code. Skills 2 and 4 are skipped gracefully when `QA_AGENT=none`. For full coverage:
+
+```bash
+QA_AGENT=opencode node orchestrator.js https://demo.playwright.dev/todomvc --prd examples/prd-todo.md
+```
+
+Artifacts are written to `.qa-workspace/<run-id>/`:
+- `00-config.json` — run config with blast_radius
+- `requirements/requirements.json` — parsed PRD features
+- `playwright-output/` — DOM snapshot, screenshots, console logs, network logs, selectors
+- `09-report/qa-report.md` + `qa-report.json` — verdict, health score, coverage, recommendations
 
 ### Basic Usage
 
