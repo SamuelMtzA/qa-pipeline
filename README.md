@@ -228,26 +228,37 @@ Generates comprehensive QA reports from all artifacts.
 
 ```
 qa-pipeline/
-├── .opencode/
-│   ├── agent/
-│   │   └── qa-orchestrator.md          # Orchestrator agent definition
-│   └── skills/
-│       ├── requirement-analysis/
-│       │   └── SKILL.md                # Skill 1 definition
-│       ├── exploratory-testing/
-│       │   └── SKILL.md                # Skill 2 definition
-│       ├── playwright-mcp/
-│       │   └── SKILL.md                # Skill 3 definition
-│       ├── test-generation/
-│       │   └── SKILL.md                # Skill 4 definition
-│       ├── test-execution/
-│       │   └── SKILL.md                # Skill 5 definition
-│       └── reporting/
-│           └── SKILL.md                # Skill 6 definition
+├── adapters/
+│   ├── opencode/                        # OpenCode adapter (full implementation)
+│   │   ├── agent/
+│   │   │   └── qa-orchestrator.md      # Orchestrator agent definition
+│   │   └── skills/
+│   │       ├── requirement-analysis/
+│   │       │   └── SKILL.md            # Skill 1 spec
+│   │       ├── exploratory-testing/
+│   │       │   └── SKILL.md            # Skill 2 spec
+│   │       ├── playwright-mcp/
+│   │       │   └── SKILL.md            # Skill 3 spec
+│   │       ├── test-generation/
+│   │       │   └── SKILL.md            # Skill 4 spec
+│   │       ├── test-execution/
+│   │       │   └── SKILL.md            # Skill 5 spec
+│   │       └── reporting/
+│   │           └── SKILL.md            # Skill 6 spec
+│   ├── claude-code/                     # Claude Code adapter (stub)
+│   └── codex/                           # Codex adapter (stub)
+├── .opencode -> adapters/opencode       # Symlink (backward compat)
 ├── bin/
 │   └── qa-pipeline                     # CLI wrapper
 ├── skills/
-│   ├── requirement-analysis.js         # Skill 1 implementation
+│   ├── _shared/
+│   │   ├── run-config.js               # blast_radius schema + validation
+│   │   ├── memory.js                   # cross-run memory (load/save/decay)
+│   │   └── agent-runner.js             # agent abstraction (QA_AGENT=none)
+│   ├── requirement-analysis.js         # Skill 1 (pure code)
+│   ├── playwright-capture.js           # Skill 3 (pure code)
+│   ├── test-execution.js               # Skill 5 (pure code)
+│   ├── reporting.js                    # Skill 6 (pure code)
 │   ├── README-skill1.md                # Skill 1 documentation
 │   ├── README-skill2.md                # Skill 2 documentation
 │   ├── README-skill3.md                # Skill 3 documentation
@@ -255,41 +266,19 @@ qa-pipeline/
 │   ├── README-skill5.md                # Skill 5 documentation
 │   ├── README-skill6.md                # Skill 6 documentation
 │   └── README-orchestrator.md          # Orchestrator documentation
-├── playwright/
-│   ├── playwright.config.ts            # Playwright configuration
-│   ├── test-plan.json                  # Sample test plan
-│   ├── coverage-matrix.md              # Sample coverage matrix
-│   └── scripts/                        # Generated test scripts
-│       ├── auth/
-│       │   ├── login.spec.ts
-│       │   └── register.spec.ts
-│       └── cart/
-│           └── cart.spec.ts
-├── playwright-output/                  # Sample Playwright MCP outputs
-│   ├── dom-snapshot.json
-│   ├── console-logs.json
-│   ├── network-requests.json
-│   ├── screenshot-*.png
-│   └── summary.md
-├── test-results/                       # Sample test execution results
-│   ├── results.json
-│   ├── summary.md
-│   ├── screenshots/
-│   ├── videos/
-│   └── traces/
-├── reports/                            # Sample QA reports
-│   ├── qa-report.md
-│   └── qa-report.json
+├── memory/                             # Cross-run persistent knowledge
+├── examples/
+│   └── prd-todo.md                     # Demo PRD for TodoMVC
 ├── tests/                              # Validation tests
-│   ├── test-requirement-analysis.js
+│   ├── test-requirement-analysis.js    # Skill 1 fixture validation
+│   ├── test-reporting.js               # Skill 6 smoke test (29 assertions)
+│   ├── test-memory.js                  # Memory system tests (34 assertions)
+│   ├── test-run-config.js              # Run config + blast_radius tests (35 assertions)
 │   ├── test-exploratory-testing.js
 │   └── test-playwright-mcp.js
-├── orchestrator.js                     # Main orchestrator script
+├── orchestrator.js                     # Main orchestrator (end-to-end pipeline)
+├── opencode.json                       # OpenCode config (gitignored)
 ├── package.json                        # NPM configuration
-├── tsconfig.json                       # TypeScript configuration
-├── test-prd.md                         # Sample PRD for testing
-├── exploration.md                      # Sample exploration report
-├── requirements.json                   # Sample requirements output
 ├── AGENTS.md                           # Agent conventions
 └── README.md                           # This file
 ```
