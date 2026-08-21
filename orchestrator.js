@@ -152,11 +152,25 @@ function runRequirementAnalysis(workspace, prdPath) {
   }
 }
 
-async function runExploratoryTesting(workspace, cliConfig, runConfig, skip) {
+async function runExploratoryTesting(workspace, cliConfig, runConfig, memoryData, skip) {
   logStep(2, 6, 'Exploratory Testing');
   if (skip) { logWarning('Skipping exploratory testing (--skip-exploration)'); return { skipped: true }; }
 
   const adapter = cliConfig.agentOverride || getAdapter();
+
+  if (adapter === 'none') {
+    try {
+      const { runExploratoryTesting } = await import('./skills/exploratory-testing.js');
+      logInfo('Running heuristic explorer (QA_AGENT=none)...');
+      const result = await runExploratoryTesting({ config: runConfig, workspaceDir: workspace, memoryData });
+      logSuccess(`Exploration complete: ${result.pagesDiscovered} pages, ${result.elementsFound} elements, ${result.flowsDetected} flows`);
+      return result;
+    } catch (error) {
+      logWarning(`Heuristic exploration failed: ${error.message}`);
+      return { failed: true, error: error.message };
+    }
+  }
+
   const result = await runAgent('exploratory-testing', {
     run_id: runConfig.run_id,
     target_url: runConfig.url,
@@ -191,7 +205,7 @@ async function runPlaywrightCapture(workspace, runConfig, memoryData, skip) {
   }
 }
 
-async function runTestGeneration(workspace, requirementsPath, captureResult, cliConfig, runConfig) {
+async function runTestGeneration(workspace, requirementsPath, captureResult, cliConfig, runConfig, memoryData) {
   logStep(4, 6, 'Test Generation');
 
   const hasDom = captureResult && captureResult.domSnapshotPath && fs.existsSync(captureResult.domSnapshotPath);
@@ -204,6 +218,24 @@ async function runTestGeneration(workspace, requirementsPath, captureResult, cli
   }
 
   const adapter = cliConfig.agentOverride || getAdapter();
+
+  if (adapter === 'none') {
+    try {
+      const { runTestGeneration } = await import('./skills/test-generation.js');
+      logInfo('Running heuristic test generator (QA_AGENT=none)...');
+      const result = await runTestGeneration({ config: runConfig, workspaceDir: workspace, memoryData });
+      if (result.testsGenerated > 0) {
+        logSuccess(`Test generation complete: ${result.testsGenerated} tests (${result.verifiedTests} verified, ${result.unverifiedTests} unverified), ${result.coveragePct}% coverage`);
+      } else {
+        logInfo(`No tests generated: ${result.note || 'unknown reason'}`);
+      }
+      return result;
+    } catch (error) {
+      logWarning(`Heuristic test generation failed: ${error.message}`);
+      return { failed: true, error: error.message };
+    }
+  }
+
   const result = await runAgent('test-generation', {
     run_id: runConfig.run_id,
     workspace: workspace,
@@ -340,18 +372,20 @@ async function main() {
   if (requirementsPath) skillsRun.push('Skill 1: Requirement Analysis');
   else skillsSkipped.push('Skill 1: Requirement Analysis (no PRD)');
 
-  const explorationResult = await runExploratoryTesting(workspace, cliConfig, runConfig, cliConfig.skipExploration);
-  if (explorationResult.skipped) skillsSkipped.push('Skill 2: Exploratory Testing');
-  else skillsRun.push('Skill 2: Exploratory Testing');
-
   const captureResult = await runPlaywrightCapture(workspace, runConfig, memoryData, cliConfig.skipCapture);
   if (captureResult.skipped) skillsSkipped.push('Skill 3: Playwright Capture');
   else if (captureResult.failed) skillsSkipped.push('Skill 3: Playwright Capture (failed)');
   else skillsRun.push('Skill 3: Playwright Capture');
 
+  const explorationResult = await runExploratoryTesting(workspace, cliConfig, runConfig, memoryData, cliConfig.skipExploration);
+  if (explorationResult.skipped) skillsSkipped.push('Skill 2: Exploratory Testing');
+  else if (explorationResult.failed) skillsSkipped.push('Skill 2: Exploratory Testing (failed)');
+  else skillsRun.push('Skill 2: Exploratory Testing');
+
   const scriptsDir = path.join(workspace, 'playwright', 'scripts');
-  const generationResult = await runTestGeneration(workspace, requirementsPath, captureResult, cliConfig, runConfig);
+  const generationResult = await runTestGeneration(workspace, requirementsPath, captureResult, cliConfig, runConfig, memoryData);
   if (generationResult.skipped) skillsSkipped.push('Skill 4: Test Generation');
+  else if (generationResult.failed) skillsSkipped.push('Skill 4: Test Generation (failed)');
   else skillsRun.push('Skill 4: Test Generation');
 
   const executionResult = await runTestExecutionSkill(workspace, scriptsDir, runConfig, cliConfig.skipExecution);
