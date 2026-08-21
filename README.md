@@ -15,27 +15,59 @@ QA Pipeline takes a web application URL (and optionally a PRD), walks the app li
 - **Test Execution** - Run tests and capture evidence (traces, videos, screenshots)
 - **Comprehensive Reporting** - Generate QA reports with verdict and recommendations
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
-- OpenCode CLI (for AI agent features)
-- Playwright MCP server
+- Node.js 20+
+- Playwright (auto-installed via `npm install && npx playwright install chromium`)
+- OpenCode CLI (optional — only needed for Skills 2 & 4 with `QA_AGENT=opencode`)
 
-### Installation
+### Quick Demo (no agent required)
 
 ```bash
-# Clone the repository
-git clone <repository-url>
+git clone https://github.com/SamuelMtzA/qa-pipeline.git
 cd qa-pipeline
+npm install && npx playwright install chromium
 
-# Install dependencies
-npm install
-
-# Link globally (optional)
-npm link
+# Run the pipeline against a live demo app (QA_AGENT=none by default)
+node orchestrator.js https://demo.playwright.dev/todomvc --prd examples/prd-todo.md --skip-execution
 ```
+
+Expected output:
+
+```
+[1/6] Requirement Analysis
+✓ Parsed 4 features from examples/prd-todo.md
+
+[2/6] Exploratory Testing
+⚠ Skipped (QA_AGENT=none — requires AI agent)
+
+[3/6] Playwright Capture
+✓ Capture complete: 1 pages, 3 selectors, 0 console errors
+
+[4/6] Test Generation
+⚠ Skipped (QA_AGENT=none — requires AI agent)
+
+[5/6] Test Execution
+⚠ Skipped (--skip-execution)
+
+[6/6] Reporting
+✓ Report generated: .qa-workspace/<run-id>/09-report/qa-report.md
+   Verdict: INCONCLUSIVE | Health: 6.5/10
+```
+
+Skills 1 (Requirement Analysis), 3 (Playwright Capture), and 6 (Reporting) run as pure code. Skills 2 and 4 are skipped gracefully when `QA_AGENT=none`. For full coverage:
+
+```bash
+QA_AGENT=opencode node orchestrator.js https://demo.playwright.dev/todomvc --prd examples/prd-todo.md
+```
+
+Artifacts are written to `.qa-workspace/<run-id>/`:
+- `00-config.json` — run config with blast_radius
+- `requirements/requirements.json` — parsed PRD features
+- `playwright-output/` — DOM snapshot, screenshots, console logs, network logs, selectors
+- `09-report/qa-report.md` + `qa-report.json` — verdict, health score, coverage, recommendations
 
 ### Basic Usage
 
@@ -56,6 +88,8 @@ qa-pipeline https://example.com --prd docs/PRD.md
 ## 📋 Pipeline Flow
 
 The pipeline executes 6 skills in sequence:
+
+> **Status legend:** `✓ Automated` = runs as plain Node code · `⚠ Manual` = requires an AI agent to interpret the skill's SKILL.md spec at runtime
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -194,26 +228,37 @@ Generates comprehensive QA reports from all artifacts.
 
 ```
 qa-pipeline/
-├── .opencode/
-│   ├── agent/
-│   │   └── qa-orchestrator.md          # Orchestrator agent definition
-│   └── skills/
-│       ├── requirement-analysis/
-│       │   └── SKILL.md                # Skill 1 definition
-│       ├── exploratory-testing/
-│       │   └── SKILL.md                # Skill 2 definition
-│       ├── playwright-mcp/
-│       │   └── SKILL.md                # Skill 3 definition
-│       ├── test-generation/
-│       │   └── SKILL.md                # Skill 4 definition
-│       ├── test-execution/
-│       │   └── SKILL.md                # Skill 5 definition
-│       └── reporting/
-│           └── SKILL.md                # Skill 6 definition
+├── adapters/
+│   ├── opencode/                        # OpenCode adapter (full implementation)
+│   │   ├── agent/
+│   │   │   └── qa-orchestrator.md      # Orchestrator agent definition
+│   │   └── skills/
+│   │       ├── requirement-analysis/
+│   │       │   └── SKILL.md            # Skill 1 spec
+│   │       ├── exploratory-testing/
+│   │       │   └── SKILL.md            # Skill 2 spec
+│   │       ├── playwright-mcp/
+│   │       │   └── SKILL.md            # Skill 3 spec
+│   │       ├── test-generation/
+│   │       │   └── SKILL.md            # Skill 4 spec
+│   │       ├── test-execution/
+│   │       │   └── SKILL.md            # Skill 5 spec
+│   │       └── reporting/
+│   │           └── SKILL.md            # Skill 6 spec
+│   ├── claude-code/                     # Claude Code adapter (stub)
+│   └── codex/                           # Codex adapter (stub)
+├── .opencode -> adapters/opencode       # Symlink (backward compat)
 ├── bin/
 │   └── qa-pipeline                     # CLI wrapper
 ├── skills/
-│   ├── requirement-analysis.js         # Skill 1 implementation
+│   ├── _shared/
+│   │   ├── run-config.js               # blast_radius schema + validation
+│   │   ├── memory.js                   # cross-run memory (load/save/decay)
+│   │   └── agent-runner.js             # agent abstraction (QA_AGENT=none)
+│   ├── requirement-analysis.js         # Skill 1 (pure code)
+│   ├── playwright-capture.js           # Skill 3 (pure code)
+│   ├── test-execution.js               # Skill 5 (pure code)
+│   ├── reporting.js                    # Skill 6 (pure code)
 │   ├── README-skill1.md                # Skill 1 documentation
 │   ├── README-skill2.md                # Skill 2 documentation
 │   ├── README-skill3.md                # Skill 3 documentation
@@ -221,41 +266,19 @@ qa-pipeline/
 │   ├── README-skill5.md                # Skill 5 documentation
 │   ├── README-skill6.md                # Skill 6 documentation
 │   └── README-orchestrator.md          # Orchestrator documentation
-├── playwright/
-│   ├── playwright.config.ts            # Playwright configuration
-│   ├── test-plan.json                  # Sample test plan
-│   ├── coverage-matrix.md              # Sample coverage matrix
-│   └── scripts/                        # Generated test scripts
-│       ├── auth/
-│       │   ├── login.spec.ts
-│       │   └── register.spec.ts
-│       └── cart/
-│           └── cart.spec.ts
-├── playwright-output/                  # Sample Playwright MCP outputs
-│   ├── dom-snapshot.json
-│   ├── console-logs.json
-│   ├── network-requests.json
-│   ├── screenshot-*.png
-│   └── summary.md
-├── test-results/                       # Sample test execution results
-│   ├── results.json
-│   ├── summary.md
-│   ├── screenshots/
-│   ├── videos/
-│   └── traces/
-├── reports/                            # Sample QA reports
-│   ├── qa-report.md
-│   └── qa-report.json
+├── memory/                             # Cross-run persistent knowledge
+├── examples/
+│   └── prd-todo.md                     # Demo PRD for TodoMVC
 ├── tests/                              # Validation tests
-│   ├── test-requirement-analysis.js
+│   ├── test-requirement-analysis.js    # Skill 1 fixture validation
+│   ├── test-reporting.js               # Skill 6 smoke test (29 assertions)
+│   ├── test-memory.js                  # Memory system tests (34 assertions)
+│   ├── test-run-config.js              # Run config + blast_radius tests (35 assertions)
 │   ├── test-exploratory-testing.js
 │   └── test-playwright-mcp.js
-├── orchestrator.js                     # Main orchestrator script
+├── orchestrator.js                     # Main orchestrator (end-to-end pipeline)
+├── opencode.json                       # OpenCode config (gitignored)
 ├── package.json                        # NPM configuration
-├── tsconfig.json                       # TypeScript configuration
-├── test-prd.md                         # Sample PRD for testing
-├── exploration.md                      # Sample exploration report
-├── requirements.json                   # Sample requirements output
 ├── AGENTS.md                           # Agent conventions
 └── README.md                           # This file
 ```
@@ -448,13 +471,13 @@ opencode
 
 ### Current Status (v1.1)
 
-- ✅ Skill 1: Requirement Analysis (automated via qa-analyst)
-- ✅ Skill 2: Exploratory Testing (automated via qa-explorer)
-- ✅ Skill 3: Playwright MCP (automated via qa-explorer)
-- ✅ Skill 4: Test Generation (automated via qa-generator)
-- ✅ Skill 5: Test Execution (automated via qa-runner)
-- ✅ Skill 6: Reporting (automated via qa-reporter)
-- ✅ Orchestrator (coordinates skills, dispatches sub-agents)
+- ✓ Skill 1: Requirement Analysis — **automated** (plain Node code in `skills/requirement-analysis.js`)
+- 🤖 Skill 2: Exploratory Testing — agent-capable (executed by `qa-explorer` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 3: Playwright MCP — agent-capable (executed by `qa-explorer` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 4: Test Generation — agent-capable (executed by `qa-generator` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 5: Test Execution — agent-capable (executed by `qa-runner` sub-agent at runtime; not yet implemented as code)
+- 🤖 Skill 6: Reporting — agent-capable (executed by `qa-reporter` sub-agent at runtime; health-score formula implemented in `tests/test-reporting.js`)
+- ✓ Orchestrator — **automated** (coordinates skills, dispatches sub-agents; `orchestrator.js` scaffolds run workspace and runs Skill 1)
 
 ### Future Enhancements
 

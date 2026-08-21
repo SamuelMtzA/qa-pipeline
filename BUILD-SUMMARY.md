@@ -1,5 +1,7 @@
 # QA Pipeline - Build Summary
 
+> **Note:** This document is a snapshot from the v1.0/v1.1 milestone and may be stale. For current state, see `README.md`, `git log`, and the [Notion execution log](https://app.notion.com/p/3c2a7a738daf8141aa77cf58bfe31d30).
+
 ## Project Overview
 
 Successfully built an AI-powered QA platform that automates the testing lifecycle from requirements to reports using OpenCode's agent infrastructure and Playwright MCP.
@@ -64,7 +66,7 @@ Successfully built an AI-powered QA platform that automates the testing lifecycl
 ### Documentation
 
 **Comprehensive documentation** for all components:
-- `README.md` - Main project README (611 lines)
+- `README.md` - Main project README (see `wc -l README.md` for current line count)
 - `AGENTS.md` - Agent conventions and patterns
 - `skills/README-skill1.md` through `skills/README-skill6.md` - Skill documentation
 - `skills/README-orchestrator.md` - Orchestrator documentation
@@ -84,13 +86,18 @@ Successfully built an AI-powered QA platform that automates the testing lifecycl
 ### Validation Tests
 
 **Automated tests** for skill validation:
-- `tests/test-requirement-analysis.js` - 42 tests, all passing
-- `tests/test-exploratory-testing.js` - 29 tests, all passing
-- `tests/test-playwright-mcp.js` - 46 tests, all passing
+- `tests/test-requirement-analysis.js` - ~42 assertions (requires sample fixture)
+- `tests/test-exploratory-testing.js` - ~29 assertions (requires sample artifacts)
+- `tests/test-playwright-mcp.js` - ~46 assertions (requires sample artifacts)
+- `tests/test-reporting.js` - 29 assertions, all passing (CI-verified)
+- `tests/test-memory.js` - 34 assertions, all passing (CI-verified)
+- `tests/test-run-config.js` - 35 assertions, all passing (CI-verified)
 
 ## Git History
 
-### Commits (12 total)
+### Commits
+
+> See `git log --oneline | wc -l` for the current commit count. This section was written at the v1.0 milestone; the repo has grown since then.
 
 ```
 * 5bbffe6 docs: create comprehensive project README
