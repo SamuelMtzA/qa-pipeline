@@ -84,13 +84,11 @@ node orchestrator.js https://example.com --prd docs/prd.md
 
 ```
 qa-pipeline/
-├── adapters/
-│   ├── opencode/              # OpenCode adapter (agent/ + skills/)
-│   ├── claude-code/           # Claude Code adapter (stub)
-│   └── codex/                 # Codex adapter (stub)
-├── .opencode -> adapters/opencode  # Symlink for backward compat
-├── orchestrator.js         # CLI orchestrator (end-to-end pipeline)
-├── opencode.json           # OpenCode config (gitignored)
+├── .opencode/
+│   ├── agent/              # 6 agent definitions
+│   └── skills/             # 12 skill definitions
+├── orchestrator.js         # CLI orchestrator
+├── opencode.json           # OpenCode config (MCP, skills)
 ├── AGENTS.md               # Project conventions
 ├── README.md               # Full documentation
 ├── docs/
@@ -98,7 +96,8 @@ qa-pipeline/
 │   ├── CONTEXT.md          # This file (resumption guide)
 │   ├── QUICKSTART.md       # Quick start guide
 │   └── TESTING-TIER-1.md   # Testing documentation
-├── skills/                 # Skill implementations (pure code)
+├── skills/                 # Skill implementations
+├── playwright/             # Playwright config + test scripts
 ├── memory/                 # Cross-run persistent knowledge (gitignored)
 └── .qa-workspace/          # Runtime artifacts (gitignored)
 ```
@@ -106,15 +105,24 @@ qa-pipeline/
 ## Environment Setup
 
 ### Prerequisites
-- Node.js 20+
+- Node.js 18+
 - OpenCode CLI
 - Playwright MCP server (auto-installed via npx)
+- GitHub CLI (`gh`) for GitHub MCP
 
 ### Install
 ```bash
 npm install
 npm link  # Optional: global command
 ```
+
+### GitHub MCP Setup
+1. Install GitHub CLI: `brew install gh`
+2. Authenticate: `gh auth login -h github.com`
+3. Get token: `gh auth token`
+4. Copy `opencode.json.example` to `opencode.json`
+5. Replace `YOUR_GITHUB_TOKEN_HERE` with your token
+6. Verify `opencode.json` is gitignored (it should be)
 
 ### Verify
 ```bash
@@ -125,14 +133,14 @@ npm run test:smoke
 ## Common Tasks
 
 ### Add New Skill
-1. Create `adapters/opencode/skills/<skill-name>/SKILL.md`
+1. Create `.opencode/skills/<skill-name>/SKILL.md`
 2. Implement logic in `skills/<skill-name>.js` (if automated)
 3. Add to orchestrator
 4. Add validation tests in `tests/`
 5. Update documentation
 
 ### Add New Agent
-1. Create `adapters/opencode/agent/qa-<role>.md`
+1. Create `.opencode/agent/qa-<role>.md`
 2. Define responsibilities, inputs, outputs
 3. Specify skills agent uses
 4. Test with sample inputs
@@ -181,12 +189,12 @@ Use conventional commits:
 ## Troubleshooting
 
 ### Agent Not Found
-- Verify agent file exists: `adapters/opencode/agent/qa-<role>.md` (or `.opencode/agent/` via symlink)
+- Verify agent file exists: `.opencode/agent/qa-<role>.md`
 - Check frontmatter: `description` field required
 - Restart OpenCode after adding new agents
 
 ### Skill Not Loaded
-- Verify skill file exists: `adapters/opencode/skills/<name>/SKILL.md` (or `.opencode/skills/` via symlink)
+- Verify skill file exists: `.opencode/skills/<name>/SKILL.md`
 - Check frontmatter: `name` and `description` required
 - Verify `skills.paths` in `opencode.json` includes directory
 
