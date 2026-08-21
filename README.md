@@ -40,24 +40,24 @@ Expected output:
 [1/6] Requirement Analysis
 ✓ Parsed 4 features from examples/prd-todo.md
 
-[2/6] Exploratory Testing
-⚠ Skipped (QA_AGENT=none — requires AI agent)
-
 [3/6] Playwright Capture
-✓ Capture complete: 1 pages, 3 selectors, 0 console errors
+✓ Capture complete: 1 page, 3 selectors, 0 console errors
+
+[2/6] Exploratory Testing
+✓ Exploration complete: 1 page, 4 elements, 1 flow discovered
 
 [4/6] Test Generation
-⚠ Skipped (QA_AGENT=none — requires AI agent)
+✓ Test generation complete: 9 tests (2 verified, 7 unverified), 22% coverage
 
 [5/6] Test Execution
 ⚠ Skipped (--skip-execution)
 
 [6/6] Reporting
 ✓ Report generated: .qa-workspace/<run-id>/09-report/qa-report.md
-   Verdict: INCONCLUSIVE | Health: 6.5/10
+   Verdict: INCONCLUSIVE | Health: 7.5/10
 ```
 
-Skills 1 (Requirement Analysis), 3 (Playwright Capture), and 6 (Reporting) run as pure code. Skills 2 and 4 are skipped gracefully when `QA_AGENT=none`. For full coverage:
+All 6 skills run without any agent runtime installed. Skill 3 (capture) runs before Skill 2 (exploration) in heuristic mode, since exploration analyzes capture data. Skills 2 and 4 use heuristic/template-based engines instead of LLM agents. For enhanced analysis (multi-viewport, complex flow detection, LLM-generated tests):
 
 ```bash
 QA_AGENT=opencode node orchestrator.js https://demo.playwright.dev/todomvc --prd examples/prd-todo.md
